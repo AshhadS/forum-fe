@@ -7,6 +7,7 @@ import Register from './components/Register';
 import Posts from './components/Posts';
 import Post from './components/Post';
 import PostCreate from './components/PostCreate';
+import Protected from './helpers/Protected';
 
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -20,9 +21,9 @@ function App() {
         <Route path='/home' element={<Home />} />
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<Register />} />
-        <Route path='/forum/:id' element={<Post />} />
-        <Route path='/forum-add' element={<PostCreate />} />
-        <Route path='/forum' element={<Posts />} />
+        <Route path='/forum/:id' element={<Protected><Post /></Protected>} />
+        <Route path='/forum-add' element={<Protected><PostCreate /></Protected>} />
+        <Route path='/forum' element={<Protected><Posts /></Protected>} />
       </Routes>
     </main>
   );

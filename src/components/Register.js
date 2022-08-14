@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
@@ -92,6 +92,12 @@ const Register=()=> {
             </Form.Group>
 
             {(loading?loading_markup:null)}
+
+            <Form.Group className="mb-3" controlId="formBasicPassword">
+              <Form.Text className="text-muted">
+                Already have an account? Login by going <Link to="/login">here</Link>here 
+              </Form.Text>
+            </Form.Group>
 
             <Button variant="primary" disabled={loading} onClick={buttonClick}>
               Submit

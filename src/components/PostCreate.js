@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from "react-router-dom";
 
 import api from '../helpers/api';
 import { Form, Button, Spinner } from 'react-bootstrap';
@@ -8,6 +9,7 @@ const Post = () => {
 
 	const [question, setQuestion] = useState([]);
   const [loading, setLoading] = useState(false);
+  let navigate = useNavigate();
 
   const savePost = () => {
     setLoading(true);
@@ -22,6 +24,7 @@ const Post = () => {
 
       if(!!response.data.status) {
         toast.success("Post Approved Successfully");
+        navigate('/forum');
       } else {
         toast.error("Failed Approving Post");
       }
@@ -39,11 +42,12 @@ const Post = () => {
       <Form>
         <Form.Group className="mb-3" controlId="formBasicQuestion">
           <Form.Label>Question</Form.Label>
-          <Form.Control as="textarea" placeholder="Enter your question here" onChange={(e) => {setQuestion(e.target.value)}}/>
-          <Form.Text className="text-muted">
+          <Form.Control as="textarea" required placeholder="Enter your question here" onChange={(e) => {setQuestion(e.target.value)}}/>
+          <Form.Text className="text-muted" >
             Please note created forum posts will only show once approved by admin
           </Form.Text>
         </Form.Group>
+        {loading?loading_markup:null}
         <Button variant="primary" disabled={loading} onClick={savePost}>
           Add
         </Button>

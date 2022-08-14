@@ -4,7 +4,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Spinner from 'react-bootstrap/Spinner';
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import api from '../helpers/api';
 
 import { toast } from 'react-toastify';
@@ -75,9 +75,13 @@ const Login=()=> {
               <Form.Label>Password</Form.Label>
               <Form.Control type="password" placeholder="Password" onChange={passwordChange} />
             </Form.Group>
-            <Form.Group className="mb-3" controlId="formBasicCheckbox">
-              <Form.Check type="checkbox" label="Check me out" />
+            
+            <Form.Group className="mb-3" controlId="formBasicPassword">
+              <Form.Text className="text-muted">
+                Dont have an account? Register by going <Link to="/register">here</Link>here 
+              </Form.Text>
             </Form.Group>
+
 
             {(loading?loading_markup:null)}
 
