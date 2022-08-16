@@ -129,8 +129,8 @@ const Post = () => {
     post_markup = (
       <div className="post-card mb-3 card p-3">
         <p className="mb-4">{post.question}</p>
-        {(!!post_actions.can_edit?<Link to={"/post/"+post.id+"/edit"}>Edit</Link>:null)}
-        {(!!(post_actions.can_approve && post.approved===0)?<div><Button variant="primary" onClick={() => handlePostApproval(post.id)}>Approve</Button></div>:null)}
+        {(!!post_actions.can_edit?<Link to={"/forum/"+post.id+"/edit"}>Edit</Link>:null)}
+        {(!!(post_actions.can_approve && post.approved===0)?<div className="mt-2"><Button variant="primary" onClick={() => handlePostApproval(post.id)}>Approve</Button></div>:null)}
         <div className="comments-wrapper">
           <h4 className="mt-3">Comments</h4>
           {(commentsLoading?loading_markup:null)}

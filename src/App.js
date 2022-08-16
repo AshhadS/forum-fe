@@ -7,6 +7,7 @@ import Register from './components/Register';
 import Posts from './components/Posts';
 import Post from './components/Post';
 import PostCreate from './components/PostCreate';
+import PostEdit from './components/PostEdit';
 import Header from './components/Header';
 import Protected from './helpers/Protected';
 
@@ -23,6 +24,7 @@ function App() {
         <Route path='/' element={<Home />} />
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<Register />} />
+        <Route path='/forum/:post_id/edit' element={<Protected><PostEdit /></Protected>} />
         <Route path='/forum/:post_id' element={<Protected><Post /></Protected>} />
         <Route path='/forum-add' element={<Protected><PostCreate /></Protected>} />
         <Route path='/forum' element={<Protected><Posts /></Protected>} />

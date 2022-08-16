@@ -8,6 +8,8 @@ import { Spinner, Button } from 'react-bootstrap';
 const Posts = () => {
 
 	const [post_list, setPostList] = useState([]);
+  const [can_approve, setCanApprove] = useState([]);
+  const [uid, setUid] = useState([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -19,6 +21,8 @@ const Posts = () => {
 		api.get('/posts')
     .then(function (response) {
     	setPostList(response.data.posts);
+      setCanApprove(response.data.can_approve);
+      setUid(response.data.user);
       setLoading(false);
     })
     .catch(function (error) {
@@ -72,6 +76,7 @@ const Posts = () => {
           <p className="mb-0">{truncate(ele.question, 100)}</p>
           <div className='d-flex' >
             <Link className="mr-2" to={"/forum/"+ele.id}>View</Link>
+            {((ele.created_by==uid)?<Link style={{marginLeft: 10 + 'px'}} to={"/forum/"+ele.id+"/edit"}>Edit</Link>:null)}
             {(ele.approved==0)?(<Link style={{marginLeft: 10 + 'px'}} to="#" onClick={() => handlePostApproval(ele.id)}>Approve</Link>):null}
           </div>
         </div>

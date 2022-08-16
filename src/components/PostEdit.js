@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from "react-router-dom";
 
 import api from '../helpers/api';
@@ -7,6 +7,7 @@ import { toast } from 'react-toastify';
 
 const Post = () => {
 
+
 	const [post, setPost] = useState([]);
   const [question, setQuestion] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -14,11 +15,19 @@ const Post = () => {
 
   let { post_id } = useParams();
 
+
+  useEffect(() => {
+    getPost();
+  }, []);
+
+
   // Gets the data for the current pages post
   const getPost = () => {
+    setLoading(true)
     api.get('/posts/'+post_id)
     .then(function (response) {
       setPost(response.data.post);
+      setQuestion(response.data.post.question);
       setLoading(false);
     })
     .catch(function (error) {
@@ -41,7 +50,7 @@ const Post = () => {
 
       if(!!response.data.status) {
         toast.success("Post updated Successfully");
-        navigate('/forum');
+        getPost();
       } else {
         toast.error("Failed creating post");
       }
@@ -60,11 +69,11 @@ const Post = () => {
       <Form>
         <Form.Group className="mb-3" controlId="formBasicQuestion">
           <Form.Label>Question</Form.Label>
-          <Form.Control as="textarea" required placeholder="Enter your question here" onChange={(e) => {setQuestion(e.target.value)}}/>
+          <Form.Control as="textarea" defaultValue={post.question} required placeholder="Enter your question here" onChange={(e) => {setQuestion(e.target.value)}}/>
         </Form.Group>
         {loading?loading_markup:null}
         <Button variant="primary" disabled={loading} onClick={updatePost}>
-          Add
+          Update
         </Button>
       </Form>
     </div>    
