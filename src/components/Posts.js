@@ -3,13 +3,14 @@ import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import api from '../helpers/api';
-import { Spinner, Button } from 'react-bootstrap';
+import { Spinner, Button, Form } from 'react-bootstrap';
 
 const Posts = () => {
 
 	const [post_list, setPostList] = useState([]);
   const [can_approve, setCanApprove] = useState([]);
   const [uid, setUid] = useState([]);
+  const [search, setSearch] = useState([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -30,6 +31,18 @@ const Posts = () => {
     });
 	}
 
+  const handleSearch = () => {
+    const payload = {"search": search}
+
+    api.post('/posts/search', payload)
+    .then(function (response) {
+      setPostList(response.data.posts);
+    })
+    .catch(function (error) {
+    });
+  }
+
+
   // Handle post approval for admins
   const handlePostApproval = (post_id) => {
     api.post('/posts/'+post_id+'/approve')
@@ -49,7 +62,7 @@ const Posts = () => {
   }
 
   function truncate(str, n){
-    return (str.length > n) ? str.slice(0, n-1) + '...' : str;
+    return (str && str.length > n) ? str.slice(0, n-1) + '...' : str;
   };
 
   const loading_markup = <div className="mb-2"><Spinner animation="border" role="status"><span className="visually-hidden">Loading...</span></Spinner></div>;
@@ -89,6 +102,15 @@ const Posts = () => {
 		<div className="container">
       <div className="col-md-12">
         <h3> Forum List </h3>
+        <Form>
+          <Form.Group className="mb-3" controlId="formBasicQuestion">
+            <Form.Control required placeholder="Enter search term" onChange={(e) => {setSearch(e.target.value)}}/>
+          </Form.Group>
+          <Button className="mb-4" variant="primary" onClick={handleSearch}>
+            Search
+          </Button>
+        </Form>
+
         {(loading?loading_markup:null)}
         {post_list_markup}
   		</div>		
