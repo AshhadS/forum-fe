@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import api from '../helpers/api';
 import { Form, Button, Spinner } from 'react-bootstrap';
@@ -7,11 +7,27 @@ import { toast } from 'react-toastify';
 
 const Post = () => {
 
-	const [question, setQuestion] = useState([]);
+	const [post, setPost] = useState([]);
+  const [question, setQuestion] = useState([]);
   const [loading, setLoading] = useState(false);
   let navigate = useNavigate();
 
-  const savePost = () => {
+  let { post_id } = useParams();
+
+  // Gets the data for the current pages post
+  const getPost = () => {
+    api.get('/posts/'+post_id)
+    .then(function (response) {
+      setPost(response.data.post);
+      setLoading(false);
+    })
+    .catch(function (error) {
+      setLoading(false);
+    });
+  }
+
+  // Handle updating the post
+  const updatePost = () => {
     setLoading(true);
 
     const payload = {
@@ -19,12 +35,12 @@ const Post = () => {
     };
 
     // Handle saving the post
-    api.post('/posts', payload)
+    api.put('/posts/'+post_id, payload)
     .then(function (response) {
       setLoading(false);
 
       if(!!response.data.status) {
-        toast.success("Post created Successfully");
+        toast.success("Post updated Successfully");
         navigate('/forum');
       } else {
         toast.error("Failed creating post");
@@ -45,12 +61,9 @@ const Post = () => {
         <Form.Group className="mb-3" controlId="formBasicQuestion">
           <Form.Label>Question</Form.Label>
           <Form.Control as="textarea" required placeholder="Enter your question here" onChange={(e) => {setQuestion(e.target.value)}}/>
-          <Form.Text className="text-muted" >
-            Please note created forum posts will only show once approved by admin
-          </Form.Text>
         </Form.Group>
         {loading?loading_markup:null}
-        <Button variant="primary" disabled={loading} onClick={savePost}>
+        <Button variant="primary" disabled={loading} onClick={updatePost}>
           Add
         </Button>
       </Form>

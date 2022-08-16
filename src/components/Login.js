@@ -4,7 +4,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Spinner from 'react-bootstrap/Spinner';
 
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import api from '../helpers/api';
 
 import { toast } from 'react-toastify';
@@ -14,7 +14,6 @@ const Login=()=> {
   const [password, setPassword] = useState(0);
   const [loading, setLoading] = useState(false);
 
-  let navigate = useNavigate();
 
   const emailChange = (event) => {
     setEmail(event.target.value);
@@ -24,6 +23,7 @@ const Login=()=> {
     setPassword(event.target.value);
   }
 
+  // Login the user and send to the forum page
   const buttonClick = () => {
     setLoading(true);
 
@@ -44,6 +44,7 @@ const Login=()=> {
 
       // Login Success
       localStorage.setItem('token', response.data.token);
+      localStorage.setItem('username', response.data.username);
       toast.success("Login Succefull");
       window.location = '/forum';
 
@@ -57,9 +58,10 @@ const Login=()=> {
 
   const loading_markup = <div className="mb-2"><Spinner animation="border" role="status"><span className="visually-hidden">Loading...</span></Spinner></div>;
 
+  // Main Page
   return (
   	<div className="page container">
-      <div className="d-flex justify-content-center mt-4">
+      <div className="d-flex justify-content-center ">
         <div className="col-md-5">
       	  <h3>User Login</h3>
       	  <Form>
@@ -78,7 +80,7 @@ const Login=()=> {
             
             <Form.Group className="mb-3" controlId="formBasicPassword">
               <Form.Text className="text-muted">
-                Dont have an account? Register by going <Link to="/register">here</Link>here 
+                Dont have an account? Register by going <Link to="/register">here</Link> 
               </Form.Text>
             </Form.Group>
 

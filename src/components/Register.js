@@ -31,6 +31,7 @@ const Register=()=> {
     setPassword(event.target.value);
   }
 
+  // Register the user and redirect to login
   const buttonClick = () => {
     setLoading(true);
 
@@ -64,9 +65,10 @@ const Register=()=> {
 
   const loading_markup = <div className="mb-2"><Spinner animation="border" role="status"><span className="visually-hidden">Loading...</span></Spinner></div>;
 
+  // Main Page
   return (
   	<div className="page container">
-  		<div className="d-flex justify-content-center mt-4">
+  		<div className="d-flex justify-content-center">
         <div className="col-md-5">
           <h3>User Registration</h3>
           <Form>
@@ -95,7 +97,7 @@ const Register=()=> {
 
             <Form.Group className="mb-3" controlId="formBasicPassword">
               <Form.Text className="text-muted">
-                Already have an account? Login by going <Link to="/login">here</Link>here 
+                Already have an account? Login by going <Link to="/login">here</Link> 
               </Form.Text>
             </Form.Group>
 
